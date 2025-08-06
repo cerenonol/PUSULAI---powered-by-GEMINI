@@ -1,62 +1,76 @@
 # PUSULAI---powered-by-GEMINI
-
 PusulaAI
-PusulaAI, modern yapay zeka ve eğitim teknolojileri ile güçlendirilmiş, YouTube videoları üzerinden kariyer analizleri yapan, öğrenci ve veli raporları sunan ileri seviye bir eğitim destek platformudur.
+Proje Tanımı
+PusulaAI, eğitim teknolojileri alanında yapay zekâ destekli inovatif bir platformdur. YouTube üzerindeki eğitim içeriklerini analiz ederek öğrencilerin kariyer yönelimlerine uygun kişiselleştirilmiş öneriler sunar. Öğrenciler için motivasyonel ve geleceğe yönelik, veliler için ise destekleyici raporlar üretir. Platform, Türkiye eğitim sistemi ve iş piyasasının dinamiklerine entegre edilerek, gerçek zamanlı veri işleme ve gelişmiş yapay zekâ modelleri ile çalışmaktadır.
 
-🚀 Proje Hakkında
-PusulaAI, eğitimde kişiselleştirilmiş rehberlik ve kariyer yönlendirmesi sağlayan, yapay zeka destekli inovatif bir platformdur. Kullanıcıların YouTube'dan seçtikleri eğitim videolarını analiz ederek, videoya özel kariyer önerileri, öğrenciye motivasyon ve veliye destek raporları üretir.
+Sistem Mimarisi ve Teknolojiler
+PusulaAI, modern full-stack JavaScript teknolojileriyle geliştirilmiş, servis odaklı mimarisi sayesinde ölçeklenebilir ve esnek bir yapıya sahiptir.
 
-Modern teknolojilerle geliştirilmiş tam kapsamlı bir sistem mimarisine sahiptir. Eğitim süreçlerini dijitalleştirirken, Türkiye’nin eğitim ve iş piyasası dinamiklerine uygun, kullanıcı dostu çözümler sunar.
+Frontend: React ve TypeScript kullanılarak geliştirilen, Tailwind CSS ile responsive ve kullanıcı dostu arayüz tasarımı. TanStack Query ile API çağrılarında akıllı önbellekleme ve veri yönetimi sağlanır.
 
-🎯 Özellikler
-YouTube Video Analizi: Videodan otomatik olarak Türkçe/İngilizce altyazı çıkarımı ve içerik analizi.
+Backend: Node.js ve Express çatısı altında servis odaklı mimari uygulanmıştır. Drizzle ORM ile PostgreSQL veritabanı işlemleri tip güvenli biçimde yönetilir. Gerçek zamanlı iletişim WebSocket protokolü ile sağlanır.
 
-Gemini AI Entegrasyonu: Google Gemini yapay zeka modeli ile derinlemesine metin analizi ve yapılandırılmış veri çıkartma.
+Veritabanı: Neon serverless PostgreSQL ile yüksek erişilebilirlik ve ölçeklenebilirlik.
 
-Gerçek Zamanlı Takip: WebSocket ile anlık analiz ilerleme durumu izleme.
+Yapay Zekâ Entegrasyonu: Google Gemini AI (2.5-flash modeli) kullanılarak videolardan çıkarılan transcriptlerin anlamlandırılması ve yapılandırılmış analiz sonuçları üretilir.
 
-Çift Raporlama Sistemi: Öğrenciler için motivasyonel, veliler için destekleyici raporlar.
+Dış Sistem Entegrasyonları: YouTube Data API v3 ve YouTube Transcript API üzerinden video bilgisi ve altyazı verileri alınır. Ayrıca BTK Academy kurslarıyla eğitim önerileri entegre edilmiştir.
 
-Kariyer ve Eğitim Önerileri: BTK Academy kurs entegrasyonu ve kariyer eşleştirmeleri.
+Çalışma Prensibi ve Analiz Süreci
+URL Doğrulama ve Video Bilgisi Çekme: Kullanıcıdan alınan YouTube video URL'si regex ile doğrulanır, video kimliği çıkarılır. YouTube API üzerinden video meta verileri alınır ve analiz oturumu oluşturulur.
 
-Modern Frontend: React + TypeScript, TanStack Query, Tailwind CSS ile kullanıcı dostu arayüz.
+Transcript Çıkarımı: Öncelikli olarak Türkçe transcript alınmaya çalışılır. Eğer mevcut değilse İngilizce transcript elde edilir. Transcript, sistemde parça parça işlenerek veritabanında optimize edilmiş şekilde depolanır.
 
-Güçlü Backend: Node.js + Express, PostgreSQL + Drizzle ORM, servis odaklı mimari.
+Gemini AI Analizi: Transcript parçaları, token limitlerine dikkat edilerek Google Gemini AI modeline gönderilir. Modelden gelen yapılandırılmış analiz çıktıları JSON formatında veritabanına kaydedilir.
 
-🏗️ Sistem Mimarisi
-Katman	Teknolojiler	Açıklama
-Frontend	React, TypeScript, Tailwind	Component tabanlı, responsive tasarım
-Backend	Node.js, Express, Drizzle	REST API + WebSocket, type-safe ORM
-Veritabanı	PostgreSQL (Neon serverless)	Kalıcı veri depolama, session yönetimi
-AI Entegrasyonu	Google Gemini AI	Yapay zeka destekli analiz ve raporlama
-Dış Entegrasyonlar	YouTube API, BTK Academy	Video verisi ve eğitim içerik entegrasyonu
+Gerçek Zamanlı İlerleme Takibi: WebSocket ile kullanıcıya analiz süreci boyunca anlık güncellemeler sağlanır. Sunucu sadece ilgili oturuma bağlı istemcilere veri gönderir.
 
-⚙️ Kurulum ve Çalıştırma
+Raporlama: AI tarafından oluşturulan analiz sonuçları kullanılarak öğrenci ve veli raporları hazırlanır. Öğrenci raporu motivasyon ve kariyer odaklıdır; veli raporu ise eğitim sürecine destek olacak bilgiler içerir.
+
+Kariyer ve Eğitim Önerileri: BTK Academy ile entegrasyon sayesinde, öğrencilerin gelişimine uygun kurslar önerilir. Ayrıca analiz sonuçlarına göre beş farklı kariyer yolu önerisi sunulur.
+
+Mevcut Durum ve Sorunlar
+Sistem genel olarak başarılı çalışmakta, analizler tamamlanmakta ve veritabanına eksiksiz kayıt yapılmaktadır. Ancak bazı durumlarda frontend tarafında raporların kullanıcıya doğru şekilde yansıtılmaması nedeniyle görüntüleme sorunları yaşanmaktadır. Bu, veri akışında ya da frontend state yönetiminde ele alınması gereken bir problemdir.
+
+Kurulum ve Çalıştırma Talimatları
 Gereksinimler
-Node.js v18+
+Node.js (v18 ve üzeri)
 
-PostgreSQL (Neon serverless veya lokal)
+PostgreSQL (Neon serverless önerilir)
 
-API anahtarları (YouTube, Gemini AI, BTK Academy)
+YouTube API Anahtarı
 
-Adımlar
+Gemini AI API Anahtarı
+
+BTK Academy API Anahtarı
+
+Kurulum
+Proje klonlanır:
+
 bash
 Kopyala
 Düzenle
-git clone https://github.com/kullaniciAdi/pusulaai.git
+git clone https://github.com/your-repo/pusulaai.git
 cd pusulaai
+Backend kurulumu:
 
-# Backend bağımlılıkları
+arduino
+Kopyala
+Düzenle
 cd server
 npm install
-npm run migrate # Veritabanı şemalarını oluştur
+npm run migrate
 npm run start
+Frontend kurulumu:
 
-# Frontend bağımlılıkları
+bash
+Kopyala
+Düzenle
 cd ../client
 npm install
 npm run dev
-Ortam Değişkenleri (.env)
+Ortam değişkenleri .env dosyasına tanımlanır:
+
 ini
 Kopyala
 Düzenle
@@ -64,22 +78,20 @@ YOUTUBE_API_KEY=your_youtube_api_key
 GEMINI_API_KEY=your_gemini_api_key
 BTK_API_KEY=your_btk_api_key
 DATABASE_URL=postgres://user:password@host:port/dbname
+Katkıda Bulunma Rehberi
+PusulaAI, eğitim teknolojileri alanında fark yaratmak isteyen geliştiriciler ve araştırmacılar için açık kaynaklıdır. Projeye katkı sağlamak için:
 
-📚 Kullanım
-Ana sayfada YouTube video URL'sini girin.
+Projeyi fork edin ve yeni bir branch oluşturun.
 
-Sistem videoyu doğrular, transcript çıkarır ve analiz eder.
+Yeni özellikler ekleyin, mevcut hataları düzeltin veya dokümantasyon geliştirin.
 
-Analiz ilerlemesini gerçek zamanlı olarak takip edin.
+Kodun okunabilirliğine, testlere ve kod standartlarına özen gösterin.
 
-İşlem tamamlandığında öğrenci ve veli raporlarını görüntüleyin.
-
-İlgili kariyer ve kurs önerilerine göz atın.
-
+Detaylı açıklamalarla Pull Request açın.
 
 
-📄 Lisans
-Bu proje MIT Lisansı ile lisanslanmıştır.
+Lisans
+PusulaAI, MIT Lisansı ile lisanslanmıştır. Lisans metni LICENSE dosyasında bulunmaktadır.
 
 💬 İletişim
 Sorularınız için:
