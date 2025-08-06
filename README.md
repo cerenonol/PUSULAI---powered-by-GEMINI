@@ -1,102 +1,102 @@
 # PUSULAI---powered-by-GEMINI
-PusulaAI
-Proje Tanımı
-PusulaAI, eğitim teknolojileri alanında yapay zekâ destekli inovatif bir platformdur. YouTube üzerindeki eğitim içeriklerini analiz ederek öğrencilerin kariyer yönelimlerine uygun kişiselleştirilmiş öneriler sunar. Öğrenciler için motivasyonel ve geleceğe yönelik, veliler için ise destekleyici raporlar üretir. Platform, Türkiye eğitim sistemi ve iş piyasasının dinamiklerine entegre edilerek, gerçek zamanlı veri işleme ve gelişmiş yapay zekâ modelleri ile çalışmaktadır.
+# PusulaAI - Eğitimde Yapay Zeka Destekli Kişiselleştirilmiş Kariyer Analizi Platformu
+Proje Hakkında
+PusulaAI, öğrencilerin YouTube eğitim içeriklerini yapay zeka ile analiz ederek kariyer yönelimlerini ve eğitim ihtiyaçlarını belirleyen, gerçek zamanlı geri bildirim ve raporlar sunan yenilikçi bir eğitim teknolojisi platformudur. Türkiye eğitim sistemi ve iş piyasası dinamiklerine uygun olarak tasarlanan PusulaAI, öğrencilerin motivasyonunu artıran ve velilerin süreci desteklemesini kolaylaştıran kapsamlı raporlar üretir.
 
-Sistem Mimarisi ve Teknolojiler
-PusulaAI, modern full-stack JavaScript teknolojileriyle geliştirilmiş, servis odaklı mimarisi sayesinde ölçeklenebilir ve esnek bir yapıya sahiptir.
+# Neden PusulaAI?
+Günümüzde öğrencilerin kariyer tercihleri ve eğitim yolları giderek karmaşıklaşıyor. Standart değerlendirme yöntemleri, bireysel farklılıkları göz önünde bulundurmada yetersiz kalıyor. PusulaAI, yapay zeka destekli içerik analiziyle öğrencinin ilgi alanlarını, öğrenme hızını ve hedeflerini doğru şekilde ortaya koyar. Böylece hem öğrenciye hem de aileye kişiselleştirilmiş yol haritası sunar.
 
-Frontend: React ve TypeScript kullanılarak geliştirilen, Tailwind CSS ile responsive ve kullanıcı dostu arayüz tasarımı. TanStack Query ile API çağrılarında akıllı önbellekleme ve veri yönetimi sağlanır.
+# Temel Özellikler
+YouTube Video Analizi: Öğrencinin seçtiği YouTube eğitim videolarından otomatik olarak transcript çıkarma ve detaylı içerik analizi.
 
-Backend: Node.js ve Express çatısı altında servis odaklı mimari uygulanmıştır. Drizzle ORM ile PostgreSQL veritabanı işlemleri tip güvenli biçimde yönetilir. Gerçek zamanlı iletişim WebSocket protokolü ile sağlanır.
+Çok Dilli Transcript Desteği: Öncelikle Türkçe, yoksa İngilizce transcript otomatik seçimi.
 
-Veritabanı: Neon serverless PostgreSQL ile yüksek erişilebilirlik ve ölçeklenebilirlik.
+Yapay Zeka Analizi: Google Gemini AI modeli kullanarak içerik temalarını, sektör bağlantılarını ve kariyer önerilerini çıkarma.
 
-Yapay Zekâ Entegrasyonu: Google Gemini AI (2.5-flash modeli) kullanılarak videolardan çıkarılan transcriptlerin anlamlandırılması ve yapılandırılmış analiz sonuçları üretilir.
+Gerçek Zamanlı Takip: WebSocket ile analiz sürecinde anlık ilerleme ve durum güncellemeleri.
 
-Dış Sistem Entegrasyonları: YouTube Data API v3 ve YouTube Transcript API üzerinden video bilgisi ve altyazı verileri alınır. Ayrıca BTK Academy kurslarıyla eğitim önerileri entegre edilmiştir.
+Kapsamlı Raporlama: Öğrenci ve veli için ayrı, motivasyonel ve eğitim odaklı raporlar.
 
-Çalışma Prensibi ve Analiz Süreci
-URL Doğrulama ve Video Bilgisi Çekme: Kullanıcıdan alınan YouTube video URL'si regex ile doğrulanır, video kimliği çıkarılır. YouTube API üzerinden video meta verileri alınır ve analiz oturumu oluşturulur.
+BTK Akademi Entegrasyonu: İlgili BTK kursları önerilerek Türkiye eğitim ekosistemine tam uyum.
 
-Transcript Çıkarımı: Öncelikli olarak Türkçe transcript alınmaya çalışılır. Eğer mevcut değilse İngilizce transcript elde edilir. Transcript, sistemde parça parça işlenerek veritabanında optimize edilmiş şekilde depolanır.
+Kalıcı Veri Depolama: PostgreSQL veritabanı ile analiz oturumlarının ve sonuçlarının güvenli saklanması.
 
-Gemini AI Analizi: Transcript parçaları, token limitlerine dikkat edilerek Google Gemini AI modeline gönderilir. Modelden gelen yapılandırılmış analiz çıktıları JSON formatında veritabanına kaydedilir.
+Responsive ve Kullanıcı Dostu Arayüz: React + TypeScript ile hızlı, şık ve erişilebilir frontend tasarımı.
 
-Gerçek Zamanlı İlerleme Takibi: WebSocket ile kullanıcıya analiz süreci boyunca anlık güncellemeler sağlanır. Sunucu sadece ilgili oturuma bağlı istemcilere veri gönderir.
+# Sistem Mimarisi
+# Frontend
+React & TypeScript: Component-based yapı, kodun sürdürülebilirliği ve hatasızlığı.
 
-Raporlama: AI tarafından oluşturulan analiz sonuçları kullanılarak öğrenci ve veli raporları hazırlanır. Öğrenci raporu motivasyon ve kariyer odaklıdır; veli raporu ise eğitim sürecine destek olacak bilgiler içerir.
+Tailwind CSS: Responsive ve modern UI tasarımı.
 
-Kariyer ve Eğitim Önerileri: BTK Academy ile entegrasyon sayesinde, öğrencilerin gelişimine uygun kurslar önerilir. Ayrıca analiz sonuçlarına göre beş farklı kariyer yolu önerisi sunulur.
+TanStack Query: API yanıtlarının verimli cachelenmesi.
 
-Mevcut Durum ve Sorunlar
-Sistem genel olarak başarılı çalışmakta, analizler tamamlanmakta ve veritabanına eksiksiz kayıt yapılmaktadır. Ancak bazı durumlarda frontend tarafında raporların kullanıcıya doğru şekilde yansıtılmaması nedeniyle görüntüleme sorunları yaşanmaktadır. Bu, veri akışında ya da frontend state yönetiminde ele alınması gereken bir problemdir.
+WebSocket: Real-time analiz ilerleme takibi.
 
-Kurulum ve Çalıştırma Talimatları
+# Backend
+Node.js & Express: REST API ve WebSocket sunucusu.
+
+PostgreSQL (Neon Serverless): Ölçeklenebilir ve güvenilir veri tabanı.
+
+Drizzle ORM: Type-safe veritabanı işlemleri.
+
+Google Gemini AI: İçerik analizi ve rapor oluşturma.
+
+# Kullanım Senaryosu
+Kullanıcı YouTube eğitim videosunun linkini girer.
+
+Sistem videodan transcript alır ve içeriği Gemini AI modeline gönderir.
+
+AI analizini yapar, anahtar kavramları çıkarır, ilgili sektör ve kariyer önerilerini belirler.
+
+WebSocket üzerinden kullanıcıya analiz sürecini gerçek zamanlı bildirir.
+
+Analiz tamamlandığında öğrenci ve veliye yönelik motivasyonel ve destekleyici raporlar üretilir.
+
+İlgili BTK kursları önerilir, eğitim yol haritası kişiselleştirilir.
+
+Kurulum ve Çalıştırma
 Gereksinimler
-Node.js (v18 ve üzeri)
+Node.js v18+
 
-PostgreSQL (Neon serverless önerilir)
+PostgreSQL (Neon Serverless önerilir)
 
-YouTube API Anahtarı
+Google API Anahtarı (YouTube Data API için)
 
-Gemini AI API Anahtarı
+Gemini AI API erişimi
 
-BTK Academy API Anahtarı
-
-Kurulum
-Proje klonlanır:
-
+Adımlar
 bash
 Kopyala
 Düzenle
-git clone https://github.com/your-repo/pusulaai.git
-cd pusulaai
-Backend kurulumu:
+git clone https://github.com/senin-kullanici-adi/pusula-ai.git
+cd pusula-ai
 
-arduino
-Kopyala
-Düzenle
-cd server
+# Backend kurulumu
+cd backend
 npm install
-npm run migrate
-npm run start
-Frontend kurulumu:
-
-bash
-Kopyala
-Düzenle
-cd ../client
-npm install
+cp .env.example .env
+# .env dosyasına gerekli API anahtarları ve veritabanı bilgilerini ekle
 npm run dev
-Ortam değişkenleri .env dosyasına tanımlanır:
-
-ini
-Kopyala
-Düzenle
-YOUTUBE_API_KEY=your_youtube_api_key
-GEMINI_API_KEY=your_gemini_api_key
-BTK_API_KEY=your_btk_api_key
-DATABASE_URL=postgres://user:password@host:port/dbname
-Katkıda Bulunma Rehberi
-PusulaAI, eğitim teknolojileri alanında fark yaratmak isteyen geliştiriciler ve araştırmacılar için açık kaynaklıdır. Projeye katkı sağlamak için:
-
-Projeyi fork edin ve yeni bir branch oluşturun.
-
-Yeni özellikler ekleyin, mevcut hataları düzeltin veya dokümantasyon geliştirin.
-
-Kodun okunabilirliğine, testlere ve kod standartlarına özen gösterin.
-
-Detaylı açıklamalarla Pull Request açın.
 
 
-Lisans
-PusulaAI, MIT Lisansı ile lisanslanmıştır. Lisans metni LICENSE dosyasında bulunmaktadır.
+# Katkıda Bulunma
+PusulaAI, eğitimde yapay zekanın potansiyelini artırmak için açık ve işbirliğine açık bir projedir. Katkılarınızı memnuniyetle karşılarız. Lütfen:
 
-💬 İletişim
+Yeni özellik önerileri için issue açın.
+
+Kod katkılarınızı fork ederek pull request oluşturun.
+
+Kod standartlarına ve testlere dikkat edin.
+
+# Lisans
+Bu proje MIT Lisansı ile lisanslanmıştır. Daha fazla bilgi için LICENSE dosyasına bakabilirsiniz.
+
+
+ # İletişim
 Sorularınız için:
 
 E-posta:cerenconol@gmail.com
 
-Teşekkürler
+# Teşekkürler
 Bu proje BTK Akademi & Google & Girişimcilik Vakfı Hackhaton 2025 için ve açık kaynak topluluğunun katkılarıyla geliştirilmiştir.
