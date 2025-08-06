@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PusulaAI - Eğitimde Gerçek Hayat Bağlantısı</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary': '#2563EB',
+                        'secondary': '#7C3AED',
+                        'accent': '#059669',
+                        'warning': '#D97706',
+                        'success': '#10B981',
+                        'surface': '#F8FAFC',
+                        'text-primary': '#1E293B',
+                        'text-secondary': '#64748B',
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'bounce-gentle': 'bounce 2s infinite',
+                        'fade-in': 'fadeIn 0.6s ease-in-out',
+                        'slide-up': 'slideUp 0.8s ease-out',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(40px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        }
+                    }
+                }
+            }
+        };
+    </script>
+</head>
+<body class="font-inter bg-surface text-text-primary">
+    <!-- @COMPONENT: Header Navigation -->
+    <header class="bg-white shadow-sm border-b border-gray-100 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-4">
+                    <div class="bg-gradient-to-r from-primary to-secondary p-2 rounded-lg">
+                        <i class="fas fa-compass text-white text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-text-primary">PusulaAI</h1>
+                        <p class="text-xs text-text-secondary">Eğitimde Gerçek Hayat Bağlantısı</p>
+                    </div>
+                </div>
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="#features" class="text-text-secondary hover:text-primary transition-colors font-medium">Özellikler</a>
+                    <a href="#how-it-works" class="text-text-secondary hover:text-primary transition-colors font-medium">Nasıl Çalışır</a>
+                    <a href="#contact" class="text-text-secondary hover:text-primary transition-colors font-medium">İletişim</a>
+                    <button class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-all font-medium">
+                        Başla
+                    </button>
+                </nav>
+                <button class="md:hidden text-text-secondary">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+    <!-- @END_COMPONENT: Header Navigation -->
+
+    <!-- @COMPONENT: Hero Section -->
+    <section class="bg-gradient-to-br from-blue-50 via-purple-50 to-green-50 py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 animate-fade-in">
+                <h2 class="text-4xl md:text-6xl font-bold text-text-primary mb-6 leading-tight">
+                    <span class="text-primary">Öğrendiklerim</span> gerçek hayatta<br>
+                    <span class="text-secondary">ne işe yarayacak ki?</span>
+                </h2>
+                <p class="text-xl md:text-2xl text-text-secondary mb-8 max-w-4xl mx-auto leading-relaxed">
+                    diye sorguluyorsan cevabı bulmak için <span class="font-semibold text-accent">doğru yerdesin.</span><br>
+                    AI destekli kariyer rehberimizle akademik içerikleri gerçek meslek alanlarıyla eşleştiriyoruz.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                    <div class="bg-white rounded-xl shadow-lg p-6 w-full max-w-md">
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-text-primary mb-2">
+                                <i class="fab fa-youtube text-red-500 mr-2"></i>YouTube Video Linki
+                            </label>
+                            <input type="url" placeholder="https://www.youtube.com/watch?v=..." 
+                                   class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                                   id="youtube-url" data-mock="true">
+                        </div>
+                        <button class="w-full bg-gradient-to-r from-primary to-secondary text-white py-3 px-6 rounded-lg font-semibold hover:shadow-lg transition-all transform hover:scale-105"
+                                onclick="startAnalysis()" data-event="click:startAnalysis">
+                            <i class="fas fa-rocket mr-2"></i>Analizi Başlat
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Processing Status Display -->
+            <div id="processing-status" class="hidden bg-white rounded-2xl shadow-xl p-8 max-w-4xl mx-auto animate-slide-up">
+                <div class="text-center mb-8">
+                    <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-primary to-secondary rounded-full mb-4 animate-pulse-slow">
+                        <i class="fas fa-brain text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-text-primary mb-2">Gemini AI Analiz Yapıyor</h3>
+                    <p class="text-text-secondary">Videodaki içeriği kariyer fırsatlarıyla eşleştiriyoruz</p>
+                </div>
+
+                <!-- Progress Steps -->
+                <div class="space-y-4">
+                    <!-- @MAP: processingSteps.map(step => ( -->
+                    <div class="flex items-center p-4 bg-gray-50 rounded-lg transition-all duration-500" data-step="link-received">
+                        <div class="flex-shrink-0 w-8 h-8 bg-success rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-check text-white text-sm"></i>
+                        </div>
+                        <div class="flex-grow">
+                            <h4 class="font-semibold text-text-primary">Linki aldık</h4>
+                            <p class="text-sm text-text-secondary">YouTube bağlantısı sisteme başarıyla alındı</p>
+                        </div>
+                        <div class="text-success">
+                            <i class="fas fa-check-circle text-lg"></i>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center p-4 bg-blue-50 rounded-lg transition-all duration-500" data-step="transcript-extracting">
+                        <div class="flex-shrink-0 w-8 h-8 bg-primary rounded-full flex items-center justify-center mr-4 animate-pulse">
+                            <i class="fas fa-cog text-white text-sm animate-spin"></i>
+                        </div>
+                        <div class="flex-grow">
+                            <h4 class="font-semibold text-text-primary">Transkript çıkarılıyor</h4>
+                            <p class="text-sm text-text-secondary">Video içeriği metne dönüştürülüyor...</p>
+                        </div>
+                        <div class="text-primary">
+                            <i class="fas fa-circle-notch animate-spin text-lg"></i>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center p-4 bg-gray-50 rounded-lg opacity-60 transition-all duration-500" data-step="gemini-analysis">
+                        <div class="flex-shrink-0 w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-brain text-white text-sm"></i>
+                        </div>
+                        <div class="flex-grow">
+                            <h4 class="font-semibold text-text-primary">Gemini analizi yapılıyor</h4>
+                            <p class="text-sm text-text-secondary">AI konuları ve kariyer bağlantılarını analiz ediyor</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center p-4 bg-gray-50 rounded-lg opacity-60 transition-all duration-500" data-step="career-matching">
+                        <div class="flex-shrink-0 w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-network-wired text-white text-sm"></i>
+                        </div>
+                        <div class="flex-grow">
+                            <h4 class="font-semibold text-text-primary">Kariyer eşleştirmesi</h4>
+                            <p class="text-sm text-text-secondary">Konular meslek alanlarıyla ilişkilendiriliyor</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center p-4 bg-gray-50 rounded-lg opacity-60 transition-all duration-500" data-step="btk-recommendations">
+                        <div class="flex-shrink-0 w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-graduation-cap text-white text-sm"></i>
+                        </div>
+                        <div class="flex-grow">
+                            <h4 class="font-semibold text-text-primary">BTK önerileri hazırlanıyor</h4>
+                            <p class="text-sm text-text-secondary">İlgini çekebilecek kurslar aranıyor</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center p-4 bg-gray-50 rounded-lg opacity-60 transition-all duration-500" data-step="student-report">
+                        <div class="flex-shrink-0 w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-user-graduate text-white text-sm"></i>
+                        </div>
+                        <div class="flex-grow">
+                            <h4 class="font-semibold text-text-primary">Öğrenci raporu oluşturuluyor</h4>
+                            <p class="text-sm text-text-secondary">Sana özel kariyer rehberi hazırlanıyor</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center p-4 bg-gray-50 rounded-lg opacity-60 transition-all duration-500" data-step="parent-report">
+                        <div class="flex-shrink-0 w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-users text-white text-sm"></i>
+                        </div>
+                        <div class="flex-grow">
+                            <h4 class="font-semibold text-text-primary">Veli raporu oluşturuluyor</h4>
+                            <p class="text-sm text-text-secondary">Aileler için destek kılavuzu oluşturuluyor</p>
+                        </div>
+                    </div>
+                    <!-- @END_MAP -->
+                </div>
+
+                <div class="text-center mt-8 p-4 bg-blue-50 rounded-lg">
+                    <p class="text-sm text-text-secondary">
+                        <i class="fas fa-clock mr-2"></i>Ortalama analiz süresi: 2-3 dakika
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: Hero Section -->
+
+    <!-- @COMPONENT: Features Section -->
+    <section id="features" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-text-primary mb-4">Neden PusulaAI?</h2>
+                <p class="text-xl text-text-secondary max-w-3xl mx-auto">
+                    Gemini AI teknolojisi ile akademik içerikleri gerçek kariyer fırsatlarına dönüştürüyoruz
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature 1: AI Analysis -->
+                <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all transform hover:scale-105">
+                    <div class="w-12 h-12 bg-primary rounded-lg flex items-center justify-center mb-6">
+                        <i class="fas fa-brain text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-text-primary mb-4">Gemini AI Analizi</h3>
+                    <p class="text-text-secondary leading-relaxed">
+                        Google'ın en gelişmiş AI modeliyle video içeriklerini derinlemesine analiz edip 
+                        kariyer bağlantılarını keşfediyoruz.
+                    </p>
+                </div>
+
+                <!-- Feature 2: Career Matching -->
+                <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all transform hover:scale-105">
+                    <div class="w-12 h-12 bg-secondary rounded-lg flex items-center justify-center mb-6">
+                        <i class="fas fa-network-wired text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-text-primary mb-4">Akıllı Eşleştirme</h3>
+                    <p class="text-text-secondary leading-relaxed">
+                        Öğrendiğin konuları gerçek meslek alanlarıyla eşleştirerek 
+                        kariyer yolculuğuna rehberlik ediyoruz.
+                    </p>
+                </div>
+
+                <!-- Feature 3: BTK Integration -->
+                <div class="bg-gradient-to-br from-green-50 to-green-100 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all transform hover:scale-105">
+                    <div class="w-12 h-12 bg-accent rounded-lg flex items-center justify-center mb-6">
+                        <i class="fas fa-graduation-cap text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-text-primary mb-4">BTK Akademi Entegrasyonu</h3>
+                    <p class="text-text-secondary leading-relaxed">
+                        BTK Akademi'den ilgili kursları otomatik önererek 
+                        becerilerini geliştirmene yardımcı oluyoruz.
+                    </p>
+                </div>
+
+                <!-- Feature 4: Student Reports -->
+                <div class="bg-gradient-to-br from-orange-50 to-orange-100 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all transform hover:scale-105">
+                    <div class="w-12 h-12 bg-warning rounded-lg flex items-center justify-center mb-6">
+                        <i class="fas fa-user-graduate text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-text-primary mb-4">Kişisel Kariyer Raporu</h3>
+                    <p class="text-text-secondary leading-relaxed">
+                        Sana özel hazırlanmış detaylı kariyer rehberi ve 
+                        adım adım gelişim planı alıyorsun.
+                    </p>
+                </div>
+
+                <!-- Feature 5: Parent Guide -->
+                <div class="bg-gradient-to-br from-pink-50 to-pink-100 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all transform hover:scale-105">
+                    <div class="w-12 h-12 bg-pink-500 rounded-lg flex items-center justify-center mb-6">
+                        <i class="fas fa-users text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-text-primary mb-4">Veli Destek Kılavuzu</h3>
+                    <p class="text-text-secondary leading-relaxed">
+                        Ailelerin çocuklarının kariyer gelişimini desteklemesi 
+                        için hazırlanmış rehber materyaller.
+                    </p>
+                </div>
+
+                <!-- Feature 6: Memory Agent -->
+                <div class="bg-gradient-to-br from-indigo-50 to-indigo-100 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all transform hover:scale-105">
+                    <div class="w-12 h-12 bg-indigo-500 rounded-lg flex items-center justify-center mb-6">
+                        <i class="fas fa-memory text-white text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-text-primary mb-4">Akıllı Hafıza Sistemi</h3>
+                    <p class="text-text-secondary leading-relaxed">
+                        Agent memory ile geçmiş analizlerini hatırlayarak 
+                        daha kişiselleştirilmiş öneriler sunuyoruz.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: Features Section -->
+
+    <!-- @COMPONENT: How It Works Section -->
+    <section id="how-it-works" class="py-20 bg-gradient-to-br from-gray-50 to-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-text-primary mb-4">Nasıl Çalışır?</h2>
+                <p class="text-xl text-text-secondary max-w-3xl mx-auto">
+                    Basit bir YouTube linki ile başlayan süreç, detaylı kariyer rehberi ile tamamlanır
+                </p>
+            </div>
+
+            <div class="relative">
+                <!-- Timeline Line -->
+                <div class="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-primary to-secondary rounded-full hidden lg:block"></div>
+
+                <div class="space-y-12">
+                    <!-- Step 1 -->
+                    <div class="flex flex-col lg:flex-row items-center">
+                        <div class="lg:w-1/2 lg:pr-12 mb-8 lg:mb-0">
+                            <div class="bg-white p-8 rounded-2xl shadow-lg">
+                                <div class="flex items-center mb-6">
+                                    <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white font-bold text-xl mr-4">1</div>
+                                    <h3 class="text-2xl font-bold text-text-primary">YouTube Linki Gir</h3>
+                                </div>
+                                <p class="text-text-secondary leading-relaxed">
+                                    Merak ettiğin eğitim videosunun linkini yapıştır. 
+                                    Sistemimiz otomatik olarak video içeriğini analiz etmeye başlar.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="lg:w-1/2 lg:pl-12">
+                            <div class="relative">
+                                <div class="bg-gradient-to-br from-blue-400 to-blue-600 p-8 rounded-2xl shadow-lg">
+                                    <i class="fab fa-youtube text-white text-6xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="flex flex-col lg:flex-row-reverse items-center">
+                        <div class="lg:w-1/2 lg:pl-12 mb-8 lg:mb-0">
+                            <div class="bg-white p-8 rounded-2xl shadow-lg">
+                                <div class="flex items-center mb-6">
+                                    <div class="w-12 h-12 bg-secondary rounded-full flex items-center justify-center text-white font-bold text-xl mr-4">2</div>
+                                    <h3 class="text-2xl font-bold text-text-primary">AI Analizi</h3>
+                                </div>
+                                <p class="text-text-secondary leading-relaxed">
+                                    Gemini AI video transkriptini analiz ederek konuları belirler 
+                                    ve gerçek hayat kariyer bağlantılarını keşfeder.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="lg:w-1/2 lg:pr-12">
+                            <div class="bg-gradient-to-br from-purple-400 to-purple-600 p-8 rounded-2xl shadow-lg">
+                                <i class="fas fa-brain text-white text-6xl animate-pulse-slow"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="flex flex-col lg:flex-row items-center">
+                        <div class="lg:w-1/2 lg:pr-12 mb-8 lg:mb-0">
+                            <div class="bg-white p-8 rounded-2xl shadow-lg">
+                                <div class="flex items-center mb-6">
+                                    <div class="w-12 h-12 bg-accent rounded-full flex items-center justify-center text-white font-bold text-xl mr-4">3</div>
+                                    <h3 class="text-2xl font-bold text-text-primary">Kariyer Eşleştirme</h3>
+                                </div>
+                                <p class="text-text-secondary leading-relaxed">
+                                    Belirlenen konular meslek veritabanımızla eşleştirilerek 
+                                    potansiyel kariyer yolları belirlenir.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="lg:w-1/2 lg:pl-12">
+                            <div class="bg-gradient-to-br from-green-400 to-green-600 p-8 rounded-2xl shadow-lg">
+                                <i class="fas fa-network-wired text-white text-6xl"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="flex flex-col lg:flex-row-reverse items-center">
+                        <div class="lg:w-1/2 lg:pl-12 mb-8 lg:mb-0">
+                            <div class="bg-white p-8 rounded-2xl shadow-lg">
+                                <div class="flex items-center mb-6">
+                                    <div class="w-12 h-12 bg-warning rounded-full flex items-center justify-center text-white font-bold text-xl mr-4">4</div>
+                                    <h3 class="text-2xl font-bold text-text-primary">Detaylı Rapor</h3>
+                                </div>
+                                <p class="text-text-secondary leading-relaxed">
+                                    Hem öğrenci hem de veli için hazırlanmış detaylı kariyer rehberi 
+                                    ve BTK kurs önerileri ile tamamlanmış rapor alırsın.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="lg:w-1/2 lg:pr-12">
+                            <div class="bg-gradient-to-br from-orange-400 to-orange-600 p-8 rounded-2xl shadow-lg">
+                                <i class="fas fa-file-alt text-white text-6xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: How It Works Section -->
+
+    <!-- @COMPONENT: Sample Reports Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-text-primary mb-4">Örnek Raporlar</h2>
+                <p class="text-xl text-text-secondary max-w-3xl mx-auto">
+                    PusulaAI'nin ürettiği raporların örneklerini incele
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Student Report Preview -->
+                <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-8 rounded-2xl shadow-lg">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-primary rounded-lg flex items-center justify-center mr-4">
+                            <i class="fas fa-user-graduate text-white text-xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-text-primary">Öğrenci Raporu</h3>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-xl shadow-inner mb-6">
+                        <h4 class="font-bold text-text-primary mb-3">Video Konusu: Yeryüzündeki Su Kaynakları</h4>
+                        <div class="space-y-3 text-sm text-text-secondary">
+                            <div><strong>Ana Konular:</strong> Hidrolojik döngü, yeraltı suları, buzullar</div>
+                            <div><strong>Kariyer Alanları:</strong> Hidrolog, CBS Uzmanı, İklim Analisti</div>
+                            <div><strong>Türkiye İş Pazarı:</strong> <span class="text-success font-semibold">Yüksek talep</span></div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="bg-white p-4 rounded-lg">
+                            <h5 class="font-semibold text-text-primary mb-2">
+                                <i class="fas fa-graduation-cap mr-2 text-primary"></i>BTK Kurs Önerileri:
+                            </h5>
+                            <ul class="text-sm text-text-secondary space-y-1">
+                                <li>• Veri Bilimi için Python</li>
+                                <li>• Coğrafi Bilgi Sistemleri</li>
+                                <li>• İklim Veri Analizi</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-white p-4 rounded-lg">
+                            <h5 class="font-semibold text-text-primary mb-2">
+                                <i class="fas fa-route mr-2 text-accent"></i>Kariyer Yol Haritası:
+                            </h5>
+                            <div class="text-sm text-text-secondary">
+                                Lise → Çevre/Jeoloji Mühendisliği → CBS Sertifikası → Staj (DSİ) → Kariyer
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Parent Report Preview -->
+                <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-8 rounded-2xl shadow-lg">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-secondary rounded-lg flex items-center justify-center mr-4">
+                            <i class="fas fa-users text-white text-xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-text-primary">Veli Rehberi</h3>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-xl shadow-inner mb-6">
+                        <h4 class="font-bold text-text-primary mb-3">Çocuğunuzun İlgi Alanı: Su Kaynakları</h4>
+                        <p class="text-sm text-text-secondary">
+                            Çocuğunuz çevre ve doğa konularında güçlü bir ilgi gösteriyor. 
+                            Bu alanda Türkiye'de yüksek iş imkanı bulunmaktadır.
+                        </p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="bg-white p-4 rounded-lg">
+                            <h5 class="font-semibold text-text-primary mb-2">
+                                <i class="fas fa-heart mr-2 text-pink-500"></i>Nasıl Destekleyebilirsiniz:
+                            </h5>
+                            <ul class="text-sm text-text-secondary space-y-1">
+                                <li>• Doğa yürüyüşleri ve gözlemler yapın</li>
+                                <li>• Bilim müzelerini ziyaret edin</li>
+                                <li>• Online kursları birlikte takip edin</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-white p-4 rounded-lg">
+                            <h5 class="font-semibold text-text-primary mb-2">
+                                <i class="fas fa-university mr-2 text-secondary"></i>Üniversite Bölümleri:
+                            </h5>
+                            <div class="text-sm text-text-secondary">
+                                Çevre Mühendisliği, Jeoloji Mühendisliği, Coğrafya, Meteoroloji Mühendisliği
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-12">
+                <button class="bg-gradient-to-r from-primary to-secondary text-white px-8 py-4 rounded-xl font-semibold text-lg hover:shadow-lg transition-all transform hover:scale-105" data-event="click:viewFullReports">
+                    <i class="fas fa-download mr-2"></i>Tam Raporları İncele
+                </button>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: Sample Reports Section -->
+
+    <!-- @COMPONENT: CTA Section -->
+    <section class="py-20 bg-gradient-to-br from-primary via-secondary to-accent text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl md:text-5xl font-bold mb-6">
+                Eğitimde yönünü kaybedenlerden olma
+            </h2>
+            <p class="text-xl mb-8 opacity-90 max-w-3xl mx-auto">
+                Akademik bilgilerini gerçek kariyer fırsatlarına dönüştürmeye bugün başla. 
+                Geleceğin mesleklerinde yerini al.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
+                <button class="bg-white text-primary px-8 py-4 rounded-xl font-bold text-lg hover:shadow-lg transition-all transform hover:scale-105" data-event="click:startAnalysis">
+                    <i class="fas fa-rocket mr-2"></i>Hemen Başla
+                </button>
+                <button class="border-2 border-white text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-white hover:text-primary transition-all" data-event="click:learnMore">
+                    <i class="fas fa-info-circle mr-2"></i>Daha Fazla Bilgi
+                </button>
+            </div>
+
+            <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div class="bg-white/10 backdrop-blur-sm p-6 rounded-xl">
+                    <div class="text-3xl font-bold mb-2">2-3dk</div>
+                    <div class="text-sm opacity-80">Ortalama analiz süresi</div>
+                </div>
+                <div class="bg-white/10 backdrop-blur-sm p-6 rounded-xl">
+                    <div class="text-3xl font-bold mb-2">50+</div>
+                    <div class="text-sm opacity-80">Farklı kariyer alanı</div>
+                </div>
+                <div class="bg-white/10 backdrop-blur-sm p-6 rounded-xl">
+                    <div class="text-3xl font-bold mb-2">BTK</div>
+                    <div class="text-sm opacity-80">Akademi entegrasyonu</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: CTA Section -->
+
+    <!-- @COMPONENT: Footer -->
+    <footer id="contact" class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="col-span-2">
+                    <div class="flex items-center space-x-4 mb-6">
+                        <div class="bg-gradient-to-r from-primary to-secondary p-2 rounded-lg">
+                            <i class="fas fa-compass text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold">PusulaAI</h3>
+                            <p class="text-gray-400 text-sm">Eğitimde Gerçek Hayat Bağlantısı</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 mb-4 leading-relaxed">
+                        Akademik öğrenmelerinizi gerçek kariyer fırsatlarıyla buluşturan 
+                        AI destekli eğitim platformu. Gemini AI teknolojisi ile 
+                        geleceğinizi şekillendirin.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center hover:bg-blue-700 transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center hover:bg-blue-700 transition-colors">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center hover:bg-blue-700 transition-colors">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Platform</h4>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><a href="#features" class="hover:text-primary transition-colors">Özellikler</a></li>
+                        <li><a href="#how-it-works" class="hover:text-primary transition-colors">Nasıl Çalışır</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">Fiyatlandırma</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">API</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Destek</h4>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><a href="#" class="hover:text-primary transition-colors">Yardım Merkezi</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">İletişim</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">Gizlilik</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">Kullanım Şartları</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 PusulaAI. Tüm hakları saklıdır. BTK Akademi ile entegreli.</p>
+            </div>
+        </div>
+    </footer>
+    <!-- @END_COMPONENT: Footer -->
+
+    <script>
+        // @TODO: Implement full OOP architecture with classes for AnalysisEngine, ReportGenerator, UIController
+        
+        (function() {
+            // Encapsulated YouTube Analysis System
+            class PusulaAISystem {
+                constructor() {
+                    this.processingSteps = [
+                        { id: 'link-received', title: 'Linki aldık', description: 'YouTube bağlantısı sisteme başarıyla alındı', status: 'pending' },
+                        { id: 'transcript-extracting', title: 'Transkript çıkarılıyor', description: 'Video içeriği metne dönüştürülüyor...', status: 'pending' },
+                        { id: 'gemini-analysis', title: 'Gemini analizi yapılıyor', description: 'AI konuları ve kariyer bağlantılarını analiz ediyor', status: 'pending' },
+                        { id: 'career-matching', title: 'Kariyer eşleştirmesi', description: 'Konular meslek alanlarıyla ilişkilendiriliyor', status: 'pending' },
+                        { id: 'btk-recommendations', title: 'BTK önerileri hazırlanıyor', description: 'İlgini çekebilecek kurslar aranıyor', status: 'pending' },
+                        { id: 'student-report', title: 'Öğrenci raporu oluşturuluyor', description: 'Sana özel kariyer rehberi hazırlanıyor', status: 'pending' },
+                        { id: 'parent-report', title: 'Veli raporu oluşturuluyor', description: 'Aileler için destek kılavuzu oluşturuluyor', status: 'pending' }
+                    ];
+                    this.currentStep = 0;
+                }
+
+                validateYouTubeURL(url) {
+                    const regex = /^(https?\:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+/;
+                    return regex.test(url);
+                }
+
+                async startAnalysis() {
+                    const urlInput = document.getElementById('youtube-url');
+                    const url = urlInput.value;
+
+                    if (!this.validateYouTubeURL(url)) {
+                        this.showError('Lütfen geçerli bir YouTube URL\'si girin.');
+                        return;
+                    }
+
+                    this.showProcessingUI();
+                    await this.simulateAnalysisProcess();
+                }
+
+                showProcessingUI() {
+                    const statusDiv = document.getElementById('processing-status');
+                    statusDiv.classList.remove('hidden');
+                    statusDiv.scrollIntoView({ behavior: 'smooth' });
+                }
+
+                async simulateAnalysisProcess() {
+                    // @TODO: Implement real Gemini API integration
+                    // @TODO: Implement YouTube transcript extraction
+                    // @TODO: Implement career matching algorithm
+                    // @TODO: Implement BTK Academy API integration
+                    // @TODO: Implement report generation system
+
+                    for (let i = 0; i < this.processingSteps.length; i++) {
+                        await this.updateStepStatus(i, 'processing');
+                        await this.delay(2000 + Math.random() * 2000); // Simulate processing time
+                        await this.updateStepStatus(i, 'completed');
+                    }
+
+                    // Show completion and redirect to reports
+                    setTimeout(() => {
+                        this.showCompletionMessage();
+                    }, 1000);
+                }
+
+                async updateStepStatus(stepIndex, status) {
+                    const stepElement = document.querySelector(`[data-step="${this.processingSteps[stepIndex].id}"]`);
+                    const stepElements = document.querySelectorAll('[data-step]');
+
+                    // Reset all steps to default state
+                    stepElements.forEach(el => {
+                        el.className = 'flex items-center p-4 bg-gray-50 rounded-lg opacity-60 transition-all duration-500';
+                    });
+
+                    // Update completed steps
+                    for (let i = 0; i < stepIndex; i++) {
+                        const completedStep = document.querySelector(`[data-step="${this.processingSteps[i].id}"]`);
+                        completedStep.className = 'flex items-center p-4 bg-green-50 rounded-lg transition-all duration-500';
+                        const icon = completedStep.querySelector('.fas');
+                        icon.className = 'fas fa-check text-white text-sm';
+                        const circle = completedStep.querySelector('.w-8');
+                        circle.className = 'flex-shrink-0 w-8 h-8 bg-success rounded-full flex items-center justify-center mr-4';
+                    }
+
+                    // Update current step
+                    if (status === 'processing') {
+                        stepElement.className = 'flex items-center p-4 bg-blue-50 rounded-lg transition-all duration-500';
+                        const icon = stepElement.querySelector('.fas');
+                        icon.className = 'fas fa-cog text-white text-sm animate-spin';
+                        const circle = stepElement.querySelector('.w-8');
+                        circle.className = 'flex-shrink-0 w-8 h-8 bg-primary rounded-full flex items-center justify-center mr-4 animate-pulse';
+                    } else if (status === 'completed') {
+                        stepElement.className = 'flex items-center p-4 bg-green-50 rounded-lg transition-all duration-500';
+                        const icon = stepElement.querySelector('.fas');
+                        icon.className = 'fas fa-check text-white text-sm';
+                        const circle = stepElement.querySelector('.w-8');
+                        circle.className = 'flex-shrink-0 w-8 h-8 bg-success rounded-full flex items-center justify-center mr-4';
+                    }
+                }
+
+                showCompletionMessage() {
+                    const statusDiv = document.getElementById('processing-status');
+                    statusDiv.innerHTML = `
+                        <div class="text-center p-12">
+                            <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-green-400 to-green-600 rounded-full mb-6 animate-bounce-gentle">
+                                <i class="fas fa-check text-white text-3xl"></i>
+                            </div>
+                            <h3 class="text-3xl font-bold text-text-primary mb-4">Analiz Tamamlandı! 🎉</h3>
+                            <p class="text-lg text-text-secondary mb-8">
+                                Kariyer raporun hazır. Şimdi geleceğine yön verebilirsin.
+                            </p>
+                            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                                <button class="bg-gradient-to-r from-primary to-secondary text-white px-8 py-4 rounded-xl font-semibold text-lg hover:shadow-lg transition-all transform hover:scale-105" onclick="pusulaAI.downloadReports()">
+                                    <i class="fas fa-download mr-2"></i>Raporları İndir
+                                </button>
+                                <button class="border-2 border-primary text-primary px-8 py-4 rounded-xl font-semibold text-lg hover:bg-primary hover:text-white transition-all" onclick="pusulaAI.viewReports()">
+                                    <i class="fas fa-eye mr-2"></i>Raporları Görüntüle
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                showError(message) {
+                    // @TODO: Implement proper error handling UI
+                    alert(message);
+                }
+
+                delay(ms) {
+                    return new Promise(resolve => setTimeout(resolve, ms));
+                }
+
+                downloadReports() {
+                    // @TODO: Implement report download functionality
+                    console.log('Downloading reports...');
+                }
+
+                viewReports() {
+                    // @TODO: Implement report viewing functionality
+                    console.log('Viewing reports...');
+                }
+            }
+
+            // Initialize the system
+            window.pusulaAI = new PusulaAISystem();
+
+            // Global function for backward compatibility
+            window.startAnalysis = function() {
+                window.pusulaAI.startAnalysis();
+            };
+
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // Add entrance animations on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-fade-in');
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all major sections
+            document.querySelectorAll('section, .bg-gradient-to-br').forEach(el => {
+                observer.observe(el);
+            });
+
+        })();
+    </script>
+</body>
+</html>
